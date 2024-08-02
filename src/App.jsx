@@ -19,14 +19,14 @@ function App() {
     color: 'white',
     fontSize: '28px',
     fontWeight: 'bold',
-  }
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <Another name="Shaun" />
         <div>
-          <span>{ count }</span>
+          <span>{count}</span>
           <button onClick={decrement}>-</button>
           <button onClick={increment}>+</button>
         </div>
@@ -34,10 +34,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        {
-          true &&
-          <p style={ someStyle }>{ 3 + 2 }</p>
-        }
+        {true && <p style={someStyle}>{3 + 2}</p>}
         <a
           className="App-link"
           href="https://reactjs.org"
