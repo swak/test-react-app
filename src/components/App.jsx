@@ -1,35 +1,40 @@
 import '../reset.css';
 import '../App.css';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import TodoList from './TodoList';
 import NoTodos from './NoTodos';
 import TodoForm from './TodoForm';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function App() {
-  const [name, setName] = useState('');
-  const nameInputEl = useRef(null);
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: 'Finish React Example',
-      isComplete: false,
-      isEditing: false,
-    },
-    {
-      id: 2,
-      title: 'Go Grocery Shopping',
-      isComplete: false,
-      isEditing: false,
-    },
-    {
-      id: 3,
-      title: 'Take over the World',
-      isComplete: false,
-      isEditing: false,
-    },
-  ]);
+  // const [name, setName] = useState('');
+  const [name, setName] = useLocalStorage('name', '');
 
-  const [idForTodo, setIdForTodo] = useState(4);
+  const nameInputEl = useRef(null);
+  const [todos, setTodos] = useLocalStorage('todos', []);
+  // const [todos, setTodos] = useState([
+  //   {
+  //     id: 1,
+  //     title: 'Finish React Example',
+  //     isComplete: false,
+  //     isEditing: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Go Grocery Shopping',
+  //     isComplete: false,
+  //     isEditing: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Take over the World',
+  //     isComplete: false,
+  //     isEditing: false,
+  //   },
+  // ]);
+
+  // const [idForTodo, setIdForTodo] = useState(4);
+  const [idForTodo, setIdForTodo] = useLocalStorage('idForTodo', 1);
 
   function addTodo(todo) {
     setTodos([
@@ -103,8 +108,8 @@ function App() {
   }
 
   function remainingCalculation() {
-    console.log('calculating remaining todos. This is slow.');
-    for (let index = 0; index < 1000000000; index++) {}
+    // console.log('calculating remaining todos. This is slow.');
+    // for (let index = 0; index < 1000000000; index++) {}
     return todos.filter(todo => !todo.isComplete).length;
   }
 
@@ -135,13 +140,20 @@ function App() {
   }
 
   useEffect(() => {
-    console.log('use effect running');
+    // console.log('use effect running');
     nameInputEl.current.focus();
 
+    // setName(JSON.parse(localStorage.getItem('name')) ?? '');
+
     return function cleanup() {
-      console.log('cleaning up');
+      // console.log('cleaning up');
     };
   }, []);
+
+  function handleNameInput(event) {
+    setName(event.target.value);
+    // localStorage.setItem('name', JSON.stringify(event.target.value));
+  }
 
   return (
     <div className="todo-app-container">
@@ -155,7 +167,7 @@ function App() {
               className="todo-input"
               placeholder="What is your name?"
               value={name}
-              onChange={event => setName(event.target.value)}
+              onChange={handleNameInput}
             />
           </form>
           {name && <p className="name-label">Hello, {name}</p>}
